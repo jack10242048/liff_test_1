@@ -3,35 +3,37 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
+    <title>LIFF Demo</title>
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
 
+    <h2>LINE 使用者資訊</h2>
+    <p id="userId">userId: </p>
+    <p id="name">name: </p>
+    <img id="avatar" width="100" />
 
     <script>
         liff.init({
-        liffId: 'U762098f8badb15f947e2d381c0b5aad3'
+            liffId: 'U762098f8badb15f947e2d381c0b5aad3'
         }).then(() => {
 
-        // ⭐ 這行很重要
-        if (!liff.isLoggedIn()) {
-            liff.login();
-            return;
-        }
+            if (!liff.isLoggedIn()) {
+                liff.login();
+                return;
+            }
 
-        // 已登入才拿資料
-        liff.getProfile().then(profile => {
-            console.log("userId:", profile.userId);
-            console.log("name:", profile.displayName);
-            console.log("picture:", profile.pictureUrl);
-        });
+            liff.getProfile().then(profile => {
+                // ⭐ 顯示在畫面上
+                document.getElementById("userId").innerText = "userId: " + profile.userId;
+                document.getElementById("name").innerText = "name: " + profile.displayName;
+                document.getElementById("avatar").src = profile.pictureUrl;
+            });
 
         }).catch(err => {
-        console.error(err);
+            document.body.innerHTML += "<p style='color:red;'>錯誤：" + err + "</p>";
         });
     </script>
-
 
 </body>
 </html>
