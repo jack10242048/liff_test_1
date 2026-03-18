@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
+</head>
+<body>
+
+
+    <script>
+        liff.init({
+        liffId: 'U762098f8badb15f947e2d381c0b5aad3'
+        }).then(() => {
+
+        // ⭐ 這行很重要
+        if (!liff.isLoggedIn()) {
+            liff.login();
+            return;
+        }
+
+        // 已登入才拿資料
+        liff.getProfile().then(profile => {
+            console.log("userId:", profile.userId);
+            console.log("name:", profile.displayName);
+            console.log("picture:", profile.pictureUrl);
+        });
+
+        }).catch(err => {
+        console.error(err);
+        });
+    </script>
+
+
+</body>
+</html>
