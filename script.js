@@ -93,6 +93,11 @@ document.getElementById("close_btn").addEventListener("click", async () => {
     document.getElementById("add_event_area").style.display = "none";
 });
 
+
+document.getElementById("close_event_info_btn").addEventListener("click", async () => {
+    document.getElementById("event_info").style.display = "none";
+});
+
 // 清空輸入欄
 function clearInput(){
     document.getElementById("input_eventName").value = "";
@@ -123,6 +128,8 @@ onSnapshot(
             const event = document.createElement("div"); // 建立 event 元件
             event.classList.add("event");
             event.dataset.id = docSnap.id; // 給入唯一ID
+
+            event.style.cursor = "pointer";
 
             const deleteBtn = document.createElement("button"); // 刪除按鈕
             deleteBtn.classList.add("delete-btn");
@@ -159,7 +166,7 @@ onSnapshot(
             const millis = timestamp.toMillis();
             const formatted = timestamp.toDate().toLocaleString();
             */
-           
+
             const now=data.createdAt.toDate();
 
             const year = now.getFullYear();
@@ -178,6 +185,11 @@ onSnapshot(
                 "活動描述 : " + (data.eventDescription || "");
 
 
+            // 展開詳情
+            event.addEventListener("click", () => {
+                //openDetailPanel(docSnap.id, docSnap.data()); // 載入點到的這張卡的資訊進 detail panel
+                document.getElementById("event_info").style.display = "flex";
+            });
 
 
             // 組裝

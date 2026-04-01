@@ -131,3 +131,18 @@ body{
     top: 5px;
     right: 5px;
 }
+
+#event_info{
+    display: none;
+    
+    height: 80%;
+    width: 60%;
+
+    position: fixed;
+    top: 50%; /* 先把左上角移到中心 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 再往回拉自身一半 → 完全置中 */
+
+    background: rgb(102, 102, 112);
+    z-index: 9999;
+}
