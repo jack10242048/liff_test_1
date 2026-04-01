@@ -134,7 +134,7 @@ body{
 
 #event_info{
     display: none;
-    
+
     height: 80%;
     width: 60%;
 
@@ -145,4 +145,19 @@ body{
 
     background: rgb(102, 102, 112);
     z-index: 9999;
+}
+
+#image_upload_area{
+    height: 50%;
+    width: 50%;
+
+    background: rgb(102, 102, 112);
+
+    margin: 10px;
+
+    cursor: pointer;
+}
+
+#input_image{
+    display: none;
 }

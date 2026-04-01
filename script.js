@@ -14,6 +14,8 @@ import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-f
 
 
 
+
+
 const firebaseConfig = {
   apiKey: "AIzaSyB0-nlnQcVk4Uhqv6XXAnc4a9YgBUERs8g",
   authDomain: "groupbuying1-878d8.firebaseapp.com",
@@ -116,7 +118,7 @@ const q = query(
 
 
 
-// 加入錯誤處理
+// onsnapshot
 onSnapshot(
     q,
     (snapshot) => {
@@ -205,3 +207,9 @@ onSnapshot(
     }
 );
 
+
+
+// 照片上傳
+document.getElementById("image_upload_area").addEventListener("click", async () => {
+    document.getElementById("input_image").click();
+});
