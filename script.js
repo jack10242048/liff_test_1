@@ -75,7 +75,7 @@ document.getElementById("send_btn").addEventListener("click", async () => {
             createdAt: serverTimestamp(), // 比較準的時間
         });
 
-        alert("新增成功");
+        //alert("新增成功");
 
         clearInput();
         document.getElementById("add_event_area").style.display = "none";
@@ -154,10 +154,29 @@ onSnapshot(
                 "活動名稱 : " + (data.eventName || "") + '\n' +
                 "活動描述 : " + (data.eventDescription || "");4
             */
+            /* 時間格式
+            const date = timestamp.toDate();
+            const millis = timestamp.toMillis();
+            const formatted = timestamp.toDate().toLocaleString();
+            */
+           
+            const now=data.createdAt.toDate();
+
+            const year = now.getFullYear();
+            const month = String(now.getMonth()+1).padStart(2,"0");
+            const day = String(now.getDate()).padStart(2,"0");
+
+            const hours = String(now.getHours()).padStart(2,"0");
+            const minutes = String(now.getMinutes()).padStart(2,"0");
+            const seconds = String(now.getSeconds()).padStart(2,"0");
+
+            const text = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+
             content.innerHTML =
                 "活動名稱 : " + (data.eventName || "") + "<br>" +
-                "建立日期 : " + (data.createdAt || "") + "<br>" +
+                "建立日期 : " + (text || "") + "<br>" +
                 "活動描述 : " + (data.eventDescription || "");
+
 
 
 
@@ -173,3 +192,4 @@ onSnapshot(
         alert("資料讀取失敗，請查看 console");
     }
 );
+
