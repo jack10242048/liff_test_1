@@ -3,37 +3,34 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>LIFF Demo</title>
+    <title>Document</title>
+    <link rel="stylesheet" href="style.css">
+
     <script src="https://static.line-scdn.net/liff/edge/2/sdk.js"></script>
 </head>
 <body>
+    <div id="user_info">
+            <h2>LINE 使用者資訊</h2>
+            <p id="userId">userId: </p>
+            <p id="name">name: </p>
+            <img id="avatar" />
+    </div>
 
-    <h2>LINE 使用者資訊</h2>
-    <p id="userId">userId: </p>
-    <p id="name">name: </p>
-    <img id="avatar" width="100" />
+    <div id="operation_area">
+        <div id="add_event_btn" class="btn">新增活動</div>
+    </div>
 
-    <script>
-        liff.init({
-            liffId: '2009518520-I9r9w3Ic'
-        }).then(() => {
+    <div id="add_event_area">
+        <label>名稱</label>
+        <input id="input_eventName" autocomplete="off">
+        <label>描述</label>
+        <input id="input_eventDescription" autocomplete="off">
+        <div id="send_btn" class="btn">送出</div>
+        <div id="close_btn" class="btn">關閉</div>
+    </div>
 
-            if (!liff.isLoggedIn()) {
-                liff.login();
-                return;
-            }
+    <div id="current_event"></div>
 
-            liff.getProfile().then(profile => {
-                // ⭐ 顯示在畫面上
-                document.getElementById("userId").innerText = "userId: " + profile.userId;
-                document.getElementById("name").innerText = "name: " + profile.displayName;
-                document.getElementById("avatar").src = profile.pictureUrl;
-            });
-
-        }).catch(err => {
-            document.body.innerHTML += "<p style='color:red;'>錯誤：" + err + "</p>";
-        });
-    </script>
-
+    <script type="module" src="script.js"></script>
 </body>
 </html>

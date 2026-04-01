@@ -1,0 +1,132 @@
+body{
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+
+    height: 100vh; /* ⭐ 必加 */
+
+    background:#f5f7fb;
+    font-family:"Microsoft JhengHei",sans-serif;
+}
+
+
+#user_info{
+    position: fixed;
+    top:0;
+    right: 0;
+
+    width: 20%;
+
+    border: 5px solid;
+    
+}
+
+#operation_area{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+    justify-content: space-evenly;
+    position: fixed;
+    bottom: 50px;
+    right: 20px;
+
+    width: 20%;
+    height: 50%;
+
+    border: 5px solid;
+}
+
+
+
+#current_event{
+    display: flex;
+    flex-direction: column;
+
+    align-items: center;
+
+    height: 80%;
+    width: 50%;
+    
+    border: 5px solid;
+
+    /*overflow-y: auto;*/ /* ⭐ 關鍵 */
+    overflow-y: auto;
+    scrollbar-gutter: stable; /* ⭐ 超好用 */
+    /*overflow-y: scroll;*/ /* ⭐ 固定顯示 */
+    overflow-x: hidden;
+    -webkit-overflow-scrolling: touch;
+
+}
+
+#avatar{
+    border-radius: 50%;
+    width: 20%;
+}
+
+.btn{
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    
+    height: 25%;
+    width: 80%;
+
+    margin: 10px;
+
+    background: rgb(242, 181, 181);
+    
+    font-size: 32px;
+
+    cursor: pointer;
+}
+
+.btn:hover{
+    background: #e0e7ff;
+}
+
+.btn:active{
+    transform: scale(0.95);
+}
+
+#add_event_area{
+    /*display: flex;*/
+    display: none; /* 一開始隱藏 */ /* document.getElementById("add_event_area").style.display = "flex"; */
+    flex-direction: column;
+    justify-content: center;    
+    align-items: center;
+
+    height: 40%;
+    width: 40%;
+
+    position: fixed;
+    top: 50%; /* 先把左上角移到中心 */
+    left: 50%;
+    transform: translate(-50%, -50%); /* 再往回拉自身一半 → 完全置中 */
+
+    background: rgb(191, 181, 242);
+
+    z-index: 999; /* Z軸資訊 決定誰在上面 不然會被event蓋住擋到 */
+}
+
+.event{
+    position: relative; /* ⭐ 必加 */
+
+    min-height: 100px;
+    width: 80%;
+    background: rgb(144, 144, 230);
+
+    padding: 10px;
+    margin: 10px;
+
+    border: 2px solid;
+    border-radius: 10px;
+}
+
+
+
+.delete-btn{
+    position: absolute;
+    top: 5px;
+    right: 5px;
+}
