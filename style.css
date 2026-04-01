@@ -38,7 +38,6 @@ body{
 }
 
 
-
 #current_event{
     display: flex;
     flex-direction: column;
@@ -70,8 +69,8 @@ body{
     justify-content: center;    
     align-items: center;
     
-    height: 25%;
-    width: 80%;
+    height: 20%;
+    width: 60%;
 
     margin: 10px;
 
@@ -97,8 +96,8 @@ body{
     justify-content: center;    
     align-items: center;
 
-    height: 40%;
-    width: 40%;
+    height: 80%;
+    width: 60%;
 
     position: fixed;
     top: 50%; /* 先把左上角移到中心 */
@@ -148,10 +147,17 @@ body{
 }
 
 #image_upload_area{
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+
     height: 50%;
     width: 50%;
 
-    background: rgb(102, 102, 112);
+
+
+    border: 2px dashed;
+    border-radius: 10px;
 
     margin: 10px;
 
