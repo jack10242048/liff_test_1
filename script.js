@@ -15,12 +15,12 @@ import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-f
 
 
 const firebaseConfig = {
-  apiKey: "AIzaSyA7lj_evdSkierw1tg-8mz_-T8JNiAqoXA",
-  authDomain: "groupbuying1-f5d3b.firebaseapp.com",
-  projectId: "groupbuying1-f5d3b",
-  storageBucket: "groupbuying1-f5d3b.firebasestorage.app",
-  messagingSenderId: "488132342309",
-  appId: "1:488132342309:web:8a719884572e4220ad85cc"
+  apiKey: "AIzaSyB0-nlnQcVk4Uhqv6XXAnc4a9YgBUERs8g",
+  authDomain: "groupbuying1-878d8.firebaseapp.com",
+  projectId: "groupbuying1-878d8",
+  storageBucket: "groupbuying1-878d8.firebasestorage.app",
+  messagingSenderId: "267596469344",
+  appId: "1:267596469344:web:29efdb45d0bde459ba1f05"
 };
 
 const app = initializeApp(firebaseConfig);
