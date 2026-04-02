@@ -1,3 +1,4 @@
+//ngrok http 5500
 import { initializeApp } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-app.js";
 import { 
   getFirestore,
@@ -15,7 +16,6 @@ import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-f
 
 
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyB0-nlnQcVk4Uhqv6XXAnc4a9YgBUERs8g",
   authDomain: "groupbuying1-878d8.firebaseapp.com",
@@ -29,6 +29,28 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 
 /////////////////////////////////////////
+const IMGBB_API_KEY = "d8e8347273b960ca47dc0dd98e60503e";
+
+// 上傳到 ImgBB
+async function uploadToImgBB(file) {
+    const formData = new FormData();
+    formData.append("image", file);
+
+    const res = await fetch(`https://api.imgbb.com/1/upload?key=${IMGBB_API_KEY}`, {
+        method: "POST",
+        body: formData
+    });
+
+    const data = await res.json();
+
+    if (!data.success) {
+        throw new Error("圖片上傳失敗");
+    }
+
+    return data.data.url; // ⭐ 回傳圖片網址
+}
+
+/////////////////////////
 
 // LINE 使用者資訊
 liff.init({ liffId: '2009518520-I9r9w3Ic' })
@@ -53,6 +75,9 @@ liff.init({ liffId: '2009518520-I9r9w3Ic' })
     console.error(err);
 });
 
+
+/////////////////////////////
+
 // 開啟新增頁面
 document.getElementById("add_event_btn").addEventListener("click", async () => {
     document.getElementById("add_event_area").style.display = "flex";
@@ -60,20 +85,30 @@ document.getElementById("add_event_btn").addEventListener("click", async () => {
 
 
 // 新增活動
+/*
 document.getElementById("send_btn").addEventListener("click", async () => {
 
     const eventName = document.getElementById("input_eventName").value.trim(); // trim() 會只留內容
     const eventDescription = document.getElementById("input_eventDescription").value.trim();
 
+    const file = fileInput.files[0]; // 圖片 
+
     if (!eventName || !eventDescription) {
         alert("請輸入完整資料");
     return;
-}
+    }
+
+    let imageBase64 = "";
+
+    if (file) {
+        imageBase64 = await fileToBase64(file);
+    }
 
     try {
         await addDoc(collection(db, "events"), {
             eventName,
             eventDescription,
+            image: imageBase64, // ⭐ 存這裡
             createdAt: serverTimestamp(), // 比較準的時間
         });
 
@@ -82,6 +117,43 @@ document.getElementById("send_btn").addEventListener("click", async () => {
         clearInput();
         document.getElementById("add_event_area").style.display = "none";
 
+
+    } catch (error) {
+        console.error("新增失敗:", error);
+        alert("新增失敗");
+    }
+});
+*/
+
+
+document.getElementById("send_btn").addEventListener("click", async () => {
+
+    const eventName = document.getElementById("input_eventName").value.trim();
+    const eventDescription = document.getElementById("input_eventDescription").value.trim();
+    const file = document.getElementById("input_image").files[0];
+
+    if (!eventName || !eventDescription) {
+        alert("請輸入完整資料");
+        return;
+    }
+
+    try {
+        let imageUrl = "";
+
+        // ⭐ 有選圖片才上傳
+        if (file) {
+            imageUrl = await uploadToImgBB(file);
+        }
+
+        await addDoc(collection(db, "events"), {
+            eventName,
+            eventDescription,
+            imageUrl, // ⭐ 存圖片網址
+            createdAt: serverTimestamp(),
+        });
+
+        clearInput();
+        document.getElementById("add_event_area").style.display = "none";
 
     } catch (error) {
         console.error("新增失敗:", error);
@@ -104,6 +176,7 @@ document.getElementById("close_event_info_btn").addEventListener("click", async 
 function clearInput(){
     document.getElementById("input_eventName").value = "";
     document.getElementById("input_eventDescription").value = "";
+    document.getElementById("input_image").value = ""; // 清空圖片
 }
 
 
@@ -169,22 +242,28 @@ onSnapshot(
             const formatted = timestamp.toDate().toLocaleString();
             */
 
-            const now=data.createdAt.toDate();
+            let text = "時間處理中...";
 
-            const year = now.getFullYear();
-            const month = String(now.getMonth()+1).padStart(2,"0");
-            const day = String(now.getDate()).padStart(2,"0");
+            if (data.createdAt) {
+                const now = data.createdAt.toDate();
 
-            const hours = String(now.getHours()).padStart(2,"0");
-            const minutes = String(now.getMinutes()).padStart(2,"0");
-            const seconds = String(now.getSeconds()).padStart(2,"0");
+                const year = now.getFullYear();
+                const month = String(now.getMonth()+1).padStart(2,"0");
+                const day = String(now.getDate()).padStart(2,"0");
 
-            const text = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+                const hours = String(now.getHours()).padStart(2,"0");
+                const minutes = String(now.getMinutes()).padStart(2,"0");
+                const seconds = String(now.getSeconds()).padStart(2,"0");
+
+                text = `${year}-${month}-${day} ${hours}:${minutes}:${seconds}`;
+            }
+
 
             content.innerHTML =
                 "活動名稱 : " + (data.eventName || "") + "<br>" +
-                "建立日期 : " + (text || "") + "<br>" +
+                "建立日期 : " +  text + "<br>" +
                 "活動描述 : " + (data.eventDescription || "");
+
 
 
             // 展開詳情
@@ -193,10 +272,24 @@ onSnapshot(
                 document.getElementById("event_info").style.display = "flex";
             });
 
+            
+
+
 
             // 組裝
             event.appendChild(deleteBtn);
             event.appendChild(content);
+
+            // ⭐ 顯示圖片
+            if (data.imageUrl) {
+                const img = document.createElement("img");
+                img.src = data.imageUrl;
+                img.style.width = "10%";
+                img.style.borderRadius = "10px";
+                img.style.marginTop = "10px";
+
+                event.appendChild(img);
+            }
 
             event_list.appendChild(event);
         });
@@ -209,7 +302,24 @@ onSnapshot(
 
 
 
+
+
 // 照片上傳
 document.getElementById("image_upload_area").addEventListener("click", async () => {
     document.getElementById("input_image").click();
+});
+
+
+const inputImage = document.getElementById("input_image");
+const uploadArea = document.getElementById("image_upload_area");
+
+inputImage.addEventListener("change", () => {
+    const file = inputImage.files[0];
+    if (!file) return;
+
+    const reader = new FileReader();
+    reader.onload = e => {
+        uploadArea.innerHTML = `<img src="${e.target.result}" style="width:100%; border-radius:10px;">`;
+    };
+    reader.readAsDataURL(file);
 });
