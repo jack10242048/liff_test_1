@@ -17,20 +17,31 @@
     </div>
 
     <div id="operation_area">
-        <div id="add_event_btn" class="big_btn">新增活動</div>
-        <div id="check_btn" class="big_btn">檢視</div>
+        <div id="add_event_btn" class="large_btn btn">新增活動</div>
+        <div id="check_btn" class="large_btn btn">檢視</div>
     </div>
 
-    <div id="add_event_area">
+    <div id="add_event_area" class="modal">
+        <h2>新增活動頁面</h2>
         <div id="input_area">
-            <label>名稱</label>
+            <label>活動名稱</label>
             <input id="input_eventName" autocomplete="off"><br><br>
-            <label>描述</label>
+
+            <label>活動期限</label>
+            <input type="date" id="input_eventStart" class="short_input">
+            <label>~</label>
+            <input type="date" id="input_eventEnd" class="short_input"><br><br>
+
+            <label>活動描述</label>
             <input id="input_eventDescription" autocomplete="off"><br><br>
 
             <label>照片上傳區</label>
             <div id="image_upload_area"></div>
             <input type="file" id="input_image" accept="image/*" multiple><br><br>
+
+            <label>商品新增</label>
+            <div id="new_item_area"></div>
+
         </div>
         <div id="input_btn_area">
             <div id="send_btn" class="btn">送出</div>
@@ -38,14 +49,46 @@
         </div>
     </div>
 
+    <div id="add_item_area" class="modal">
+        <h3>新增商品頁面</h3>
+        <div id="input_item_area">
+            <label>商品名稱</label>
+            <input id="input_itemName" autocomplete="off"><br><br>
+
+            <label>商品描述</label>
+            <input id="input_itemDescription" autocomplete="off"><br><br>
+
+            <label>商品價格</label>
+            <input id="input_itemPrice" autocomplete="off"><br><br>
+
+            <label>照片上傳區</label>
+            <div id="item_image_upload_area"></div>
+            <input type="file" id="input_item_image" accept="image/*" multiple><br><br>
+        </div>
+        <div id="input_item_btn_area">
+            <div id="send_item_btn" class="btn">送出</div>
+            <div id="close_item_btn" class="btn">關閉</div>
+        </div>
+
+    </div>
+
     <div id="event_info">
         <div id="event_detail">
-            <label>活動名稱</label>
-            <input id="detail_eventName" autocomplete="off" readonly="readonly"><br><br>
-            <label>活動描述</label>
+            <label>活動名稱 : </label>
+            <input id="detail_eventName" autocomplete="off" readonly="readonly"><br>
+
+            <label>建立時間 : </label>
+            <input id="detail_eventTime" autocomplete="off" readonly="readonly"><br>
+
+            <label>活動期限 : </label>
+            <input type="date" id="detail_eventStart" class="short_input" readonly="readonly">
+            <label>~</label>
+            <input type="date" id="detail_eventEnd" class="short_input" readonly="readonly"><br>
+
+
+            <label>活動描述 : </label>
             <input id="detail_eventDescription" autocomplete="off" readonly="readonly"><br><br>
-            <label>建立時間</label>
-            <input id="detail_eventTime" autocomplete="off" readonly="readonly"><br><br>
+
             <label>圖片</label>
             <div id="detail_image_area"></div>
         </div>

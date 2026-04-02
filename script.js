@@ -78,6 +78,7 @@ liff.init({ liffId: '2009518520-I9r9w3Ic' })
 // 開啟新增頁面
 document.getElementById("add_event_btn").addEventListener("click", async () => {
     document.getElementById("add_event_area").style.display = "flex";
+
     uploadArea.innerHTML = "點擊這裡上傳"; // 清空圖片預覽
 });
 
@@ -126,13 +127,19 @@ document.getElementById("send_btn").addEventListener("click", async () => {
 
     const eventName = document.getElementById("input_eventName").value.trim();
     const eventDescription = document.getElementById("input_eventDescription").value.trim();
+
+    const eventStart = document.getElementById("input_eventStart").value;
+    const eventEnd = document.getElementById("input_eventEnd").value;
+
     //const file = document.getElementById("input_image").files[0]; // file[0] 表示第一張
     const files = document.getElementById("input_image").files;
 
+    /*
     if (!eventName || !eventDescription) {
         alert("請輸入完整資料");
         return;
     }
+    */
 
     try {
         let imageUrls = [];
@@ -145,10 +152,14 @@ document.getElementById("send_btn").addEventListener("click", async () => {
 
         await addDoc(collection(db, "events"), {
             eventName,
+            eventStart,   // ⭐ 新增
+            eventEnd,     // ⭐ 新增
             eventDescription,
             imageUrls, // ⭐ 存陣列
             createdAt: serverTimestamp(),
         });
+
+        //document.getElementById("send_btn").innerText = "上傳中...";
 
         clearInput();
         document.getElementById("add_event_area").style.display = "none";
@@ -174,6 +185,8 @@ function clearInput(){
     document.getElementById("input_eventName").value = "";
     document.getElementById("input_eventDescription").value = "";
     document.getElementById("input_image").value = ""; // 清空圖片
+    document.getElementById("input_eventStart").value= "";
+    document.getElementById("input_eventEnd").value= "";
 }
 
 
@@ -256,10 +269,18 @@ onSnapshot(
             }
 
 
+            /*
             content.innerHTML =
                 "活動名稱 : " + (data.eventName || "") + "<br>" +
                 "建立日期 : " +  text + "<br>" +
                 "活動描述 : " + (data.eventDescription || "");
+            */
+
+            content.innerHTML =
+            "活動名稱 : " + (data.eventName || "") + "<br>" +
+            "建立日期 : " +  text + "<br>" +
+            "活動期間 : " + (data.eventStart || "") + " ~ " + (data.eventEnd || "") + "<br>" +
+            "活動描述 : " + (data.eventDescription || "");
 
 
 
@@ -270,6 +291,9 @@ onSnapshot(
                 document.getElementById("detail_eventName").value = data.eventName || "";
                 document.getElementById("detail_eventDescription").value = data.eventDescription || "";
                 document.getElementById("detail_eventTime").value = text;
+
+                document.getElementById("detail_eventStart").value = data.eventStart || "";
+                document.getElementById("detail_eventEnd").value = data.eventEnd || "";
 
                 // 圖片
                 const imageArea = document.getElementById("detail_image_area");
@@ -348,7 +372,8 @@ inputImage.addEventListener("change", () => {
         reader.onload = e => {
             const img = document.createElement("img");
             img.src = e.target.result;
-            img.style.height = "50%";
+            img.style.height = "120px";
+            img.style.width = "120px";
             img.style.margin = "5px";
             img.style.borderRadius = "10px";
 
@@ -359,5 +384,16 @@ inputImage.addEventListener("change", () => {
     }
 });
 
+
+
+// 新增商品頁面
+document.getElementById("new_item_area").addEventListener("click", async () => {
+    document.getElementById("add_item_area").style.display = "flex";
+    //uploadArea.innerHTML = "點擊這裡上傳"; // 清空圖片預覽
+});
+
+document.getElementById("close_item_btn").addEventListener("click", async () => {
+    document.getElementById("add_item_area").style.display = "none";
+});
 
 
