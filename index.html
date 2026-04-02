@@ -17,7 +17,7 @@
     </div>
 
     <div id="operation_area">
-        <div id="add_event_btn" class="btn">新增活動</div>
+        <div id="add_event_btn" class="big_btn">新增活動</div>
     </div>
 
     <div id="add_event_area">
@@ -26,17 +26,18 @@
         <label>描述</label>
         <input id="input_eventDescription" autocomplete="off">
         <div id="image_upload_area">照片上傳區</div>
-        <input type="file" id="input_image" accept="image/*">
+        <input type="file" id="input_image" accept="image/*" multiple>
+
         <div id="send_btn" class="btn">送出</div>
         <div id="close_btn" class="btn">關閉</div>
     </div>
 
     <div id="event_info">
+        <div id="event_detail"></div>
         <div id="close_event_info_btn" class="btn">關閉</div>
     </div>
 
     <div id="current_event"></div>
-
 
     <script type="module" src="script.js"></script>
 </body>

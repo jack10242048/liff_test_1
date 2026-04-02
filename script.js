@@ -15,7 +15,6 @@ import { onSnapshot } from "https://www.gstatic.com/firebasejs/10.7.1/firebase-f
 
 
 
-
 const firebaseConfig = {
   apiKey: "AIzaSyB0-nlnQcVk4Uhqv6XXAnc4a9YgBUERs8g",
   authDomain: "groupbuying1-878d8.firebaseapp.com",
@@ -27,7 +26,6 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
-
 /////////////////////////////////////////
 const IMGBB_API_KEY = "d8e8347273b960ca47dc0dd98e60503e";
 
@@ -75,14 +73,12 @@ liff.init({ liffId: '2009518520-I9r9w3Ic' })
     console.error(err);
 });
 
-
 /////////////////////////////
 
 // 開啟新增頁面
 document.getElementById("add_event_btn").addEventListener("click", async () => {
     document.getElementById("add_event_area").style.display = "flex";
 });
-
 
 // 新增活動
 /*
@@ -125,12 +121,12 @@ document.getElementById("send_btn").addEventListener("click", async () => {
 });
 */
 
-
 document.getElementById("send_btn").addEventListener("click", async () => {
 
     const eventName = document.getElementById("input_eventName").value.trim();
     const eventDescription = document.getElementById("input_eventDescription").value.trim();
-    const file = document.getElementById("input_image").files[0];
+    //const file = document.getElementById("input_image").files[0]; // file[0] 表示第一張
+    const files = document.getElementById("input_image").files;
 
     if (!eventName || !eventDescription) {
         alert("請輸入完整資料");
@@ -138,17 +134,18 @@ document.getElementById("send_btn").addEventListener("click", async () => {
     }
 
     try {
-        let imageUrl = "";
+        let imageUrls = [];
 
-        // ⭐ 有選圖片才上傳
-        if (file) {
-            imageUrl = await uploadToImgBB(file);
+        // ⭐ 多張圖片上傳
+        for (const file of files) {
+            const url = await uploadToImgBB(file);
+            imageUrls.push(url);
         }
 
         await addDoc(collection(db, "events"), {
             eventName,
             eventDescription,
-            imageUrl, // ⭐ 存圖片網址
+            imageUrls, // ⭐ 存陣列
             createdAt: serverTimestamp(),
         });
 
@@ -166,7 +163,6 @@ document.getElementById("close_btn").addEventListener("click", async () => {
     clearInput();
     document.getElementById("add_event_area").style.display = "none";
 });
-
 
 document.getElementById("close_event_info_btn").addEventListener("click", async () => {
     document.getElementById("event_info").style.display = "none";
@@ -268,12 +264,34 @@ onSnapshot(
 
             // 展開詳情
             event.addEventListener("click", () => {
-                //openDetailPanel(docSnap.id, docSnap.data()); // 載入點到的這張卡的資訊進 detail panel
+                const detail = document.getElementById("event_detail");
+
+                /*
+                let imageHTML = "";
+                if (data.imageUrl) {
+                    imageHTML = `<img src="${data.imageUrl}" 
+                                        style="width:100%; max-height:300px; object-fit:cover; border-radius:10px;">`;
+                }
+                */
+                let imageHTML = "";
+
+                if (data.imageUrls && data.imageUrls.length > 0) {
+                    imageHTML = data.imageUrls.map(url => `
+                        <img src="${url}" 
+                            style="width:100%; max-height:50px; object-fit:cover; border-radius:10px; margin-top:10px;">
+                    `).join("");
+                }
+
+                detail.innerHTML = `
+                    <h2>${data.eventName || ""}</h2>
+                    <p>${data.eventDescription || ""}</p>
+                    <p>建立時間：${text}</p>
+                    ${imageHTML}
+                `;
+
                 document.getElementById("event_info").style.display = "flex";
             });
-
             
-
 
 
             // 組裝
@@ -309,17 +327,28 @@ document.getElementById("image_upload_area").addEventListener("click", async () 
     document.getElementById("input_image").click();
 });
 
-
+// 顯示預覽
 const inputImage = document.getElementById("input_image");
 const uploadArea = document.getElementById("image_upload_area");
 
-inputImage.addEventListener("change", () => {
-    const file = inputImage.files[0];
-    if (!file) return;
 
-    const reader = new FileReader();
-    reader.onload = e => {
-        uploadArea.innerHTML = `<img src="${e.target.result}" style="width:100%; border-radius:10px;">`;
-    };
-    reader.readAsDataURL(file);
+inputImage.addEventListener("change", () => {
+    const files = inputImage.files;
+    uploadArea.innerHTML = "";
+
+    for (const file of files) {
+        const reader = new FileReader();
+
+        reader.onload = e => {
+            const img = document.createElement("img");
+            img.src = e.target.result;
+            img.style.height = "50%";
+            img.style.margin = "5px";
+            img.style.borderRadius = "10px";
+
+            uploadArea.appendChild(img);
+        };
+
+        reader.readAsDataURL(file);
+    }
 });

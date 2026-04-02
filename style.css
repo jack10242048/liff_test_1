@@ -64,7 +64,7 @@ body{
     width: 20%;
 }
 
-.btn{
+.big_btn{
     display: flex;
     justify-content: center;    
     align-items: center;
@@ -77,6 +77,31 @@ body{
     background: rgb(242, 181, 181);
     
     font-size: 32px;
+
+    cursor: pointer;
+}
+
+.big_btn:hover{
+    background: #e0e7ff;
+}
+
+.big_btn:active{
+    transform: scale(0.95);
+}
+
+.btn{
+    display: flex;
+    justify-content: center;    
+    align-items: center;
+    
+    height: 10%;
+    width: 30%;
+
+    margin: 5px;
+
+    background: rgb(245, 221, 71);
+    
+    font-size: 20px;
 
     cursor: pointer;
 }
@@ -133,6 +158,10 @@ body{
 
 #event_info{
     display: none;  
+
+    flex-direction: column;
+    justify-content: center;    
+    align-items: center;
 
     height: 80%;
     width: 60%;
