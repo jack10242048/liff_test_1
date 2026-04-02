@@ -10,7 +10,7 @@ body{
 }
 
 input {
-  width: 500px;
+  width: 80%;
   padding: 12px 16px;
   margin: 0px 10px;
   border: 2px solid #ddd;
@@ -104,7 +104,7 @@ input {
     justify-content: center;    
     align-items: center;
     
-    height: 10%;
+    height: 50%;
     width: 30%;
 
     margin: 5px;
@@ -145,7 +145,15 @@ input {
 }
 
 #input_area{
-    height: 60%;
+    height: 80%;
+    width: 80%;
+}
+
+#input_btn_area{
+    display: flex;
+    
+    height: 10%;
+    width: 80%;
 }
 
 .event{
@@ -179,9 +187,9 @@ input {
     width: 60%;
 
     position: fixed;
-    top: 50%; /* 先把左上角移到中心 */
+    top: 50%;
     left: 50%;
-    transform: translate(-50%, -50%); /* 再往回拉自身一半 → 完全置中 */
+    transform: translate(-50%, -50%);
 
     padding:20px;
 
@@ -193,24 +201,37 @@ input {
     z-index: 9999;
 }
 
+/* ⭐ 內容區可以滾動 */
 #event_detail{
-    height: 80%;
-
+    flex: 1;              /* 撐滿剩下空間 */
+    overflow-y: auto;     /* 重點 */
 }
+
+/* ⭐ 按鈕固定高度 */
+#close_event_info_btn{
+    height: 50px;
+    flex-shrink: 0;
+}
+
 
 #image_upload_area{
     display: flex;
-    justify-content: center;    
-    align-items: center;
+
+    flex-wrap: wrap;        /* ⭐ 同樣要加 */
+    gap: 10px;
+
+    justify-content: flex-start;  /* ⭐ 不要置中，避免怪排版 */
+    align-items: flex-start;
+
+    overflow-y: auto; /* 往下超過時會使用滾輪 防止爆出去 */
 
     height: 50%;
-    width: 80%;
-
-
+    min-width: 80%;
 
     border: 2px dashed;
     border-radius: 10px;
 
+    padding: 10px;
     margin: 10px;
 
     cursor: pointer;
@@ -220,11 +241,20 @@ input {
     display: none;
 }
 
+
 #detail_image_area{
     display: flex;
-    height: 50%;
+
+    flex-wrap: wrap;        /* ⭐ 關鍵：允許換行 */
+    gap: 10px;              /* ⭐ 圖片間距（推薦） */
+
+     /* 加了會把圖片限制在這個框裡 */
+    /* max-height: 200px; */
+    /* overflow-y: auto; */
 
     border: 2px solid;
     border-radius: 10px;
-}
 
+    padding: 10px;
+    margin: 10px;
+}

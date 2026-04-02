@@ -280,8 +280,14 @@ onSnapshot(
                         const img = document.createElement("img");
                         img.src = url;
 
-                        img.style.width = "50%";
-                        img.style.maxHeight = "100px";
+                        /*
+                        img.style.width = "24%";
+                        img.style.height = "50%";
+                        img.style.objectFit = "cover";
+                        */
+
+                        img.style.width = "200px";
+                        img.style.height = "200px";
                         img.style.objectFit = "cover";
                         img.style.borderRadius = "10px";
                         img.style.marginTop = "10px";
