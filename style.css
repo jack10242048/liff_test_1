@@ -9,6 +9,16 @@ body{
     font-family:"Microsoft JhengHei",sans-serif;
 }
 
+input {
+  width: 500px;
+  padding: 12px 16px;
+  margin: 0px 10px;
+  border: 2px solid #ddd;
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+}
+
 
 #user_info{
     position: fixed;
@@ -134,6 +144,10 @@ body{
     z-index: 999; /* Z軸資訊 決定誰在上面 不然會被event蓋住擋到 */
 }
 
+#input_area{
+    height: 60%;
+}
+
 .event{
     position: relative; /* ⭐ 必加 */
 
@@ -160,8 +174,6 @@ body{
     display: none;  
 
     flex-direction: column;
-    justify-content: center;    
-    align-items: center;
 
     height: 80%;
     width: 60%;
@@ -171,8 +183,19 @@ body{
     left: 50%;
     transform: translate(-50%, -50%); /* 再往回拉自身一半 → 完全置中 */
 
-    background: rgb(102, 102, 112);
+    padding:20px;
+
+    border: 2px solid;
+    border-radius: 10px;
+
+    background: white;
+
     z-index: 9999;
+}
+
+#event_detail{
+    height: 80%;
+
 }
 
 #image_upload_area{
@@ -204,3 +227,4 @@ body{
     border: 2px solid;
     border-radius: 10px;
 }
+
