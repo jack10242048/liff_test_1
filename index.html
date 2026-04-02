@@ -22,18 +22,29 @@
 
     <div id="add_event_area">
         <label>名稱</label>
-        <input id="input_eventName" autocomplete="off">
+        <input id="input_eventName" autocomplete="off"><br>
         <label>描述</label>
-        <input id="input_eventDescription" autocomplete="off">
-        <div id="image_upload_area">照片上傳區</div>
-        <input type="file" id="input_image" accept="image/*" multiple>
+        <input id="input_eventDescription" autocomplete="off"><br>
+
+        <label>照片上傳區</label>
+        <div id="image_upload_area"></div>
+        <input type="file" id="input_image" accept="image/*" multiple><br>
 
         <div id="send_btn" class="btn">送出</div>
         <div id="close_btn" class="btn">關閉</div>
     </div>
 
     <div id="event_info">
-        <div id="event_detail"></div>
+        <div id="event_detail">
+            <label>活動名稱</label>
+            <input id="detail_eventName" autocomplete="off" readonly="readonly"><br><br>
+            <label>活動描述</label>
+            <input id="detail_eventDescription" autocomplete="off" readonly="readonly"><br><br>
+            <label>建立時間</label>
+            <input id="detail_eventTime" autocomplete="off" readonly="readonly"><br><br>
+            <label>圖片</label>
+            <div id="detail_image_area"></div>
+        </div>
         <div id="close_event_info_btn" class="btn">關閉</div>
     </div>
 

@@ -78,6 +78,7 @@ liff.init({ liffId: '2009518520-I9r9w3Ic' })
 // 開啟新增頁面
 document.getElementById("add_event_btn").addEventListener("click", async () => {
     document.getElementById("add_event_area").style.display = "flex";
+    uploadArea.innerHTML = "點擊這裡上傳"; // 清空圖片預覽
 });
 
 // 新增活動
@@ -264,34 +265,33 @@ onSnapshot(
 
             // 展開詳情
             event.addEventListener("click", () => {
-                const detail = document.getElementById("event_detail");
 
-                /*
-                let imageHTML = "";
-                if (data.imageUrl) {
-                    imageHTML = `<img src="${data.imageUrl}" 
-                                        style="width:100%; max-height:300px; object-fit:cover; border-radius:10px;">`;
-                }
-                */
-                let imageHTML = "";
+                // 文字
+                document.getElementById("detail_eventName").value = data.eventName || "";
+                document.getElementById("detail_eventDescription").value = data.eventDescription || "";
+                document.getElementById("detail_eventTime").value = text;
+
+                // 圖片
+                const imageArea = document.getElementById("detail_image_area");
+                imageArea.innerHTML = "";
 
                 if (data.imageUrls && data.imageUrls.length > 0) {
-                    imageHTML = data.imageUrls.map(url => `
-                        <img src="${url}" 
-                            style="width:100%; max-height:50px; object-fit:cover; border-radius:10px; margin-top:10px;">
-                    `).join("");
-                }
+                    data.imageUrls.forEach(url => {
+                        const img = document.createElement("img");
+                        img.src = url;
 
-                detail.innerHTML = `
-                    <h2>${data.eventName || ""}</h2>
-                    <p>${data.eventDescription || ""}</p>
-                    <p>建立時間：${text}</p>
-                    ${imageHTML}
-                `;
+                        img.style.width = "50%";
+                        img.style.maxHeight = "100px";
+                        img.style.objectFit = "cover";
+                        img.style.borderRadius = "10px";
+                        img.style.marginTop = "10px";
+
+                        imageArea.appendChild(img);
+                    });
+                }
 
                 document.getElementById("event_info").style.display = "flex";
             });
-            
 
 
             // 組裝
@@ -352,3 +352,6 @@ inputImage.addEventListener("change", () => {
         reader.readAsDataURL(file);
     }
 });
+
+
+
